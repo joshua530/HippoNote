@@ -1,0 +1,10 @@
+{
+  "name": "hipponote",
+  "version": "1.0.0",
+  "description": "a simple note taking application",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "license": "MIT"
+}
