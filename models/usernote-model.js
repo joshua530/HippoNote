@@ -7,4 +7,5 @@ const userNoteSchema = new Schema({
     noteId: mongoose.Types.ObjectId,
 });
 
-export default mongoose.Model("UserNote", userNoteSchema);
+const UserNote = mongoose.Model("UserNote", userNoteSchema);
+export default UserNote;

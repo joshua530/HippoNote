@@ -8,4 +8,5 @@ const noteSchema = new Schema({
     content: String,
 });
 
-export default mongoose.Model("Note", noteSchema);
+const Note = mongoose.Model("Note", noteSchema);
+export default Note;
