@@ -8,6 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "esm": "^3.2.25",
     "mongoose": "^7.0.1"
   }
 }
