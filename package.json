@@ -6,5 +6,8 @@
   "scripts": {
     "test": "test"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "mongoose": "^7.0.1"
+  }
 }
