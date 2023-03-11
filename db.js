@@ -9,10 +9,11 @@ if (!DB_URI) {
     DB_URI = `mongodb://${HOST}:${PORT}/${DB}`;
 }
 
-const connection = async function () {
+const connection = async function (printConnectionMessage = false) {
     try {
         const conn = await mongoose.connect(DB_URI, { autoIndex: false });
-        console.log(`DB connected to ${conn.connection.host} successfully`);
+        printConnectionMessage &&
+            console.log(`DB connected to ${conn.connection.host} successfully`);
     } catch (e) {
         console.log(e);
         process.exit(1);
