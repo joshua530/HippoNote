@@ -9,7 +9,9 @@
   },
   "license": "MIT",
   "dependencies": {
+    "chai": "^4.3.7",
     "esm": "^3.2.25",
+    "mocha": "^10.2.0",
     "mongoose": "^7.0.1"
   }
 }
