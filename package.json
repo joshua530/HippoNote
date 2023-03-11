@@ -1,19 +1,18 @@
 {
-  "name": "hipponote",
-  "version": "1.0.0",
-  "description": "a simple note taking application",
-  "main": "index.js",
-  "scripts": {
-    "test": "test",
-    "start": "node -r esm"
-  },
-  "license": "MIT",
-  "dependencies": {
-    "esm": "^3.2.25",
-    "mongoose": "^7.0.1"
-  },
-  "devDependencies": {
-    "chai": "^4.3.7",
-    "mocha": "^10.2.0"
-  }
+    "name": "hipponote",
+    "version": "1.0.0",
+    "description": "a simple note taking application",
+    "main": "index.js",
+    "scripts": {
+        "test": "mocha",
+        "start": "node index.js"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "mongoose": "^7.0.1"
+    },
+    "devDependencies": {
+        "chai": "^4.3.7",
+        "mocha": "^10.2.0"
+    }
 }
