@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
 
@@ -8,4 +8,4 @@ const userNoteSchema = new Schema({
 });
 
 const UserNote = mongoose.Model("UserNote", userNoteSchema);
-export default UserNote;
+module.exports = UserNote;

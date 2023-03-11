@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import UserNote from "./usernote-model";
+const mongoose = require("mongoose");
+const UserNote = require("./usernote-model");
 
 const { Schema } = mongoose;
 
@@ -20,4 +20,4 @@ const userSchema = new Schema(
 );
 
 const User = mongoose.Model("User", userSchema);
-export default User;
+module.exports = User;
