@@ -8,5 +8,5 @@ const noteSchema = new Schema({
     content: String,
 });
 
-const Note = mongoose.Model("Note", noteSchema);
+const Note = mongoose.model("Note", noteSchema);
 module.exports = Note;
