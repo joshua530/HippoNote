@@ -8,7 +8,7 @@ const userSchema = new Schema(
         password: String,
         email: String,
         profilePicture: String,
-        dateCreated: Date,
+        dateCreated: { type: Date, default: Date.now },
     },
     {
         methods: {
