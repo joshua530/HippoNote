@@ -12,8 +12,8 @@ const userSchema = new Schema(
     },
     {
         methods: {
-            getNotes() {
-                return UserNote.find({ id: this.id });
+            async getNotes() {
+                return await UserNote.find({ userId: this.id });
             },
         },
     }
