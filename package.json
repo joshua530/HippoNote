@@ -6,7 +6,8 @@
     "scripts": {
         "test": "mocha \"test/**/*.js\"",
         "start": "node index.js",
-        "start-dev": "nodemon index.js"
+        "start-dev": "nodemon index.js",
+        "mocha": "mocha"
     },
     "license": "MIT",
     "dependencies": {
