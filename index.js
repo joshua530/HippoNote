@@ -7,7 +7,7 @@ addSecretToEnv();
 
 app.set("views", "./templates");
 app.set("view engine", "twig");
-app.engine("twig", twig.__express);
+app.engine("html", twig.__express);
 
 app.use("/", require("./routes"));
 app.use("/notes", require("./routes/notes"));
