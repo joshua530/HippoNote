@@ -11,7 +11,6 @@ app.engine("twig", twig.__express);
 app.use("/", require("./routes"));
 app.use("/notes", require("./routes/notes"));
 app.use("/account", require("./routes/account"));
-app.use("/api/v1", require("./routes/api"));
 app.use("*", function (req, res) {
     res.set("Content-Type", "application/json");
     res.send({ error: "404 not found" });
