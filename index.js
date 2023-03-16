@@ -5,6 +5,7 @@ const twig = require("twig");
 
 addSecretToEnv();
 
+app.set("views", "./templates");
 app.set("view engine", "twig");
 app.engine("twig", twig.__express);
 
