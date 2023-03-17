@@ -16,6 +16,7 @@ describe("User Model", function () {
     });
     it("Returns associated user notes", async function () {
         const user = await User.create({
+            username: "abc",
             password: "abc",
             email: "a@email.com",
             profilePicture: "/a.jpg",
