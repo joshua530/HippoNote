@@ -4,6 +4,7 @@ const Note = require("../../models/note-model");
 const { default: mongoose } = require("mongoose");
 const { expect } = require("chai");
 const UserNote = require("../../models/usernote-model");
+const { hashPassword } = require("../../utils");
 
 describe("User Model", function () {
     before(async function () {
@@ -17,7 +18,7 @@ describe("User Model", function () {
     it("Returns associated user notes", async function () {
         const user = await User.create({
             username: "abc",
-            password: "abc",
+            password: hashPassword("abc"),
             email: "a@email.com",
             profilePicture: "/a.jpg",
         });
