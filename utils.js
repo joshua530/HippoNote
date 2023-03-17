@@ -3,10 +3,20 @@ const fs = require("fs");
 const path = require("path");
 require("dotenv").config();
 
+/** crypto */
 function generateSecretKey() {
-    return crypto.randomBytes(256).toString("hex");
+    return generateToken(256);
 }
 
+function generateSalt(length = 16) {
+    return generateToken(length);
+}
+
+function generateToken(length) {
+    return crypto.randomBytes(length).toString("hex");
+}
+
+/** environment variables */
 function addSecretToEnv(basePath = "") {
     if (!basePath) basePath = __dirname;
     if (!process.env.SECRET) {
