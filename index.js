@@ -9,7 +9,7 @@ app.set("views", "./templates");
 app.set("view engine", "twig");
 app.engine("html", twig.__express);
 
-app.use(express.static("public"));
+app.use("/static", express.static("public"));
 app.use("/", require("./routes"));
 app.use("/notes", require("./routes/notes"));
 app.use("/account", require("./routes/account"));
