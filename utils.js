@@ -16,6 +16,24 @@ function generateToken(length) {
     return crypto.randomBytes(length).toString("hex");
 }
 
+function hashPassword(password) {
+    const salt = generateSalt();
+    const hash = crypto
+        .createHmac("sha256", salt)
+        .update(password)
+        .digest("hex");
+    return `${hash}:${salt}`;
+}
+
+function verifyPassword(password, hash) {
+    const [hashed, salt] = hash.split(":");
+    const tmp = crypto
+        .createHmac("sha256", salt)
+        .update(password)
+        .digest("hex");
+    return tmp === hashed;
+}
+
 /** environment variables */
 function addSecretToEnv(basePath = "") {
     if (!basePath) basePath = __dirname;
@@ -29,4 +47,9 @@ function addSecretToEnv(basePath = "") {
     }
 }
 
-module.exports = { generateSecretKey, addSecretToEnv };
+module.exports = {
+    generateSecretKey,
+    addSecretToEnv,
+    hashPassword,
+    verifyPassword,
+};
