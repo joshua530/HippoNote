@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const connection = require("./db");
 
 addSecretToEnv();
+connection(true);
 
 app.set("views", "./templates");
 app.set("view engine", "twig");
