@@ -6,7 +6,8 @@ function constructDbURI() {
     const DB = process.env["DB"] || "hippo_note";
     let DB_URI = process.env["DB_URI"] || null;
 
-    if (parseInt(DB_URI) === 0) DB_URI = `mongodb://${HOST}:${PORT}/${DB}`;
+    if (!DB_URI || parseInt(DB_URI) === 0)
+        DB_URI = `mongodb://${HOST}:${PORT}/${DB}`;
     return DB_URI;
 }
 
