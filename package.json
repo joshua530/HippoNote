@@ -4,7 +4,7 @@
     "description": "a simple note taking application",
     "main": "index.js",
     "scripts": {
-        "test": "DB=hippo_note_test npm run mocha \"test/**/*.js\"",
+        "test": "mocha \"test/**/*.js\"",
         "start": "node index.js",
         "nodemon": "nodemon index.js",
         "dev": "DB=hippo_note_test npm run nodemon",
