@@ -76,7 +76,7 @@ describe("Index routes", function () {
                 }
             );
         });
-        it("Returns 200 ok for correct credentials", async function () {
+        it("Returns 302 redirect for correct credentials", async function () {
             request.post(
                 {
                     url: `http://${host}:${port}/login`,
