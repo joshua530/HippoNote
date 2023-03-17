@@ -8,8 +8,8 @@ const { hashPassword } = require("../../utils");
 
 describe("User Model", function () {
     before(async function () {
+        process.env.DB_URI = "mongodb://127.0.0.1:27017/hippo_note_test";
         await connection();
-        process.env.DB_URI = "hippo_note_test";
     });
     after(function () {
         mongoose.connection.close();
