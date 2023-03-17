@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="container px-4 px-lg-5">
+  <h2 class="mb-1">Note title</h2>
+  <div class="d-flex mt-3">
+    <a href="/foo/edit-note" title="edit note" class="btn mx-1 btn-sm btn-outline-success"><i class="fa fa-pencil"
+        aria-hidden="true"></i>
+    </a>
+    <form title="delete note" action="/delete/note/1" method="POST" class="form-submission" id="note-1"
+      onsubmit="return confirm('Delete this note?')"><button class="btn mx-1 btn-sm btn-outline-danger"><i
+          class="fa fa-trash" aria-hidden="true"></i></button></form>
+  </div>
+  <p id="text">
+  </p>
+</div>
+{% endblock body %}
+
+{% block scripts %}
+<script>
+  document.querySelector('#text').innerHTML = `
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum inventore quasi consequatur excepturi? Quibusdam accusamus culpa aspernatur modi voluptate ullam minus, distinctio porro voluptas quos minima in debitis dolorum. At!</p>
+
+        `
+</script>
+{% endblock scripts %}

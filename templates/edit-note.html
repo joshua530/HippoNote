@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="container px-4 px-lg-5">
+  <h2 class="mb-3">Edit note</h2>
+  <small>only linked images are currently supported</small>
+  <form action="" class="mt-3">
+    <div>
+      <textarea id="editor" name="text"></textarea>
+    </div>
+    <button class="mt-3 btn btn-success btn-lg">save</button>
+  </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+<script>
+  ClassicEditor
+    .create(document.querySelector('#editor'))
+    .catch(error => {
+      console.error(error);
+    });
+</script>
+{% endblock %}
