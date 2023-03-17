@@ -1,7 +1,6 @@
 const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
-require("dotenv").config();
 
 /** crypto */
 function generateSecretKey() {
@@ -37,6 +36,9 @@ function verifyPassword(password, hash) {
 /** environment variables */
 function addSecretToEnv(basePath = "") {
     if (!basePath) basePath = __dirname;
+    require("dotenv").config({
+        path: path.resolve(basePath, ".env"),
+    });
     if (!process.env.SECRET) {
         const secret = generateSecretKey();
         const secretStr = `SECRET="${secret}"\n`;
