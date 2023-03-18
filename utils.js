@@ -1,6 +1,7 @@
 const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
+const jwt = require("jsonwebtoken");
 
 /** crypto */
 function generateSecretKey() {
@@ -49,6 +50,21 @@ function addSecretToEnv(basePath = "") {
     }
 }
 
+/** auth */
+function loggedIn(req) {
+    const cookie = req.cookies.session;
+    if (!cookie) {
+        return false;
+    }
+
+    try {
+        jwt.verify(cookie, process.env.SECRET);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
 /** more utils */
 function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -67,4 +83,5 @@ module.exports = {
     hashPassword,
     verifyPassword,
     generateImageUri,
+    loggedIn,
 };
