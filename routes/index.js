@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../models/user-model");
 const router = express.Router();
 const { verifyPassword, generateImageUri } = require("../utils");
+const jwt = require("jsonwebtoken");
 
 /**
  * route: /
@@ -36,6 +37,16 @@ router
             });
             return;
         }
+        const token = jwt.sign({ id: user.id }, process.env.SECRET, {
+            expiresIn: "10d",
+        });
+
+        res.cookie("session", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: true,
+            expires: new Date(Date.now() + 60000 * 60 * 24 * 10),
+        });
         res.redirect("/login");
     });
 
