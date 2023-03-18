@@ -1,7 +1,7 @@
 const express = require("express");
 const User = require("../models/user-model");
 const router = express.Router();
-const { verifyPassword, generateImageUri } = require("../utils");
+const { verifyPassword, generateImageUri, hashPassword } = require("../utils");
 const jwt = require("jsonwebtoken");
 
 /**
@@ -28,7 +28,6 @@ router
             return;
         }
         const user = await User.findOne({ username: username }).exec();
-
         if (!user || !verifyPassword(password, user.password)) {
             res.status(400);
             res.render("login.html", {
@@ -47,7 +46,7 @@ router
             sameSite: true,
             expires: new Date(Date.now() + 60000 * 60 * 24 * 10),
         });
-        res.redirect("/login");
+        res.redirect("/dashboard");
     });
 
 router
@@ -130,7 +129,7 @@ router
         }
         let user = await User.create({
             username,
-            password,
+            password: hashPassword(password),
             email,
             profilePicture: generateImageUri(),
         });
@@ -156,8 +155,30 @@ router
         }
     });
 
-router.get("/dashboard", function (req, res) {
-    res.render("dashboard.html", { title: "dashboard" });
+router.get("/dashboard", async function (req, res) {
+    // get cookie
+    let cookie = req.cookies.session;
+    if (!cookie) {
+        res.redirect("/login");
+        return;
+    }
+
+    let decoded;
+    try {
+        decoded = jwt.verify(cookie, process.env.SECRET);
+    } catch (e) {
+        res.clearCookie("session");
+        res.redirect("/login");
+        return;
+    }
+    const user = await User.findOne({ _id: decoded.id });
+    if (!user) {
+        res.clearCookie("session");
+        res.redirect("/login");
+        return;
+    }
+    const notes = await user.getNotes();
+    res.render("dashboard.html", { title: "dashboard", notes });
 });
 
 module.exports = router;
