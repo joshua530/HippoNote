@@ -65,6 +65,10 @@ function loggedIn(req) {
     return true;
 }
 
+function getUserIdFromCookie(req) {
+    return jwt.verify(req.cookies.session, process.env.SECRET).id;
+}
+
 /** more utils */
 function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -84,4 +88,5 @@ module.exports = {
     verifyPassword,
     generateImageUri,
     loggedIn,
+    getUserIdFromCookie,
 };
