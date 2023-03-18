@@ -16,7 +16,9 @@ const connection = async function (printConnectionMessage = false) {
     try {
         const conn = await mongoose.connect(DB_URI, { autoIndex: false });
         printConnectionMessage &&
-            console.log(`DB connected to ${conn.connection.host} successfully`);
+            console.log(
+                `DB connected to '${conn.connection.host};${conn.connection.name}' successfully`
+            );
     } catch (e) {
         console.log(e);
         process.exit(1);
