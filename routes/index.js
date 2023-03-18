@@ -1,7 +1,12 @@
 const express = require("express");
 const User = require("../models/user-model");
 const router = express.Router();
-const { verifyPassword, generateImageUri, hashPassword } = require("../utils");
+const {
+    verifyPassword,
+    generateImageUri,
+    hashPassword,
+    loggedIn,
+} = require("../utils");
 const jwt = require("jsonwebtoken");
 
 /**
@@ -14,6 +19,10 @@ router.get("/", function (req, res) {
 router
     .route("/login")
     .get(function (req, res) {
+        if (loggedIn(req)) {
+            res.redirect("/dashboard");
+            return;
+        }
         res.render("login.html", { title: "login page" });
     })
     .post(async function (req, res) {
