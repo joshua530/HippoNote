@@ -9,8 +9,6 @@ const UserNote = require("../../models/usernote-model");
 /**
  * route: /notes
  */
-router.get("/", function (req, res) {});
-
 router.get("/search", function (req, res) {});
 
 router
