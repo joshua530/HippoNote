@@ -83,4 +83,6 @@ router
     .get(function (req, res) {})
     .post(function (req, res) {});
 
+router.post("/delete/:id", function (req, res) {});
+
 module.exports = router;
