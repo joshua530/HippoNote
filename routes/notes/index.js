@@ -10,7 +10,41 @@ const { isValidObjectId } = require("mongoose");
 /**
  * route: /notes
  */
-router.get("/search", function (req, res) {});
+router.get("/search", async function (req, res) {
+    const query = req.query.q;
+    let cookie = req.cookies.session;
+    if (!query || typeof query !== "string" || query.trim() === "") {
+        res.render("/dashboard");
+        return;
+    }
+    const userId = getUserIdFromCookie(req);
+    q = query.trim();
+    const userNotes = await UserNote.find({ userId: userId });
+    if (!userNotes) {
+        res.render("dashboard.html", {
+            title: "dashboard",
+            notes: [],
+            message: "No notes matched the query",
+        });
+    }
+    const noteIds = userNotes.map((note) => note.noteId);
+    const notes = await Note.find()
+        .and({
+            _id: { $in: noteIds },
+        })
+        .and({
+            $or: [
+                { title: new RegExp(q, "i") },
+                { content: new RegExp(q, "i") },
+            ],
+        });
+    console.log(notes);
+    res.render("dashboard.html", {
+        title: "dashboard",
+        notes,
+        message: "No notes matched the query",
+    });
+});
 
 router
     .route("/new")
