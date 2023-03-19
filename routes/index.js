@@ -61,6 +61,10 @@ router
 router
     .route("/sign-up")
     .get(function (req, res) {
+        if (loggedIn(req)) {
+            res.redirect("/dashboard");
+            return;
+        }
         res.render("sign-up.html", { title: "sign up" });
     })
     .post(async function (req, res) {
@@ -187,6 +191,10 @@ router.get("/dashboard", async function (req, res) {
         return;
     }
     const notes = await user.getNotes();
+    for (let note of notes) {
+        if (note.content.length > 30)
+            note.content = note.content.slice(0, 30) + "...";
+    }
     res.render("dashboard.html", { title: "dashboard", notes });
 });
 
