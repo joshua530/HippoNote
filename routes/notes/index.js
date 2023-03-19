@@ -78,4 +78,9 @@ router
 
 router.get("/:id", function (req, res) {});
 
+router
+    .route("/edit/:id")
+    .get(function (req, res) {})
+    .post(function (req, res) {});
+
 module.exports = router;
