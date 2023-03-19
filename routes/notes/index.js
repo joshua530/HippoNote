@@ -119,7 +119,21 @@ router
         }
     );
 
-router.post("/delete/:id", function (req, res) {});
+router.post("/delete/:id", async function (req, res) {
+    let id = req.params.id;
+    let userNote = await UserNote.findOne({ noteId: id });
+    if (!userNote) {
+        res.redirect("/404");
+        return;
+    }
+    if (userNote.userId.toString() !== getUserIdFromCookie(req)) {
+        res.redirect("/403");
+        return;
+    }
+    await Note.deleteOne({ _id: id });
+    await UserNote.deleteOne({ noteId: id });
+    res.redirect("/dashboard");
+});
 
 router.get("/:id", async function (req, res) {
     let id = req.params.id;
