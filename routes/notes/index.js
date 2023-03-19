@@ -137,7 +137,13 @@ router.post("/delete/:id", async function (req, res) {
 
 router.get("/:id", async function (req, res) {
     let id = req.params.id;
-    let userNote = await UserNote.findOne({ noteId: id });
+    let userNote;
+    try {
+        userNote = await UserNote.findOne({ noteId: id });
+    } catch (e) {
+        res.redirect("/404");
+        return;
+    }
     if (!userNote) {
         res.redirect("/404");
         return;
