@@ -21,10 +21,6 @@ router
         body("text").not().isEmpty().trim(),
         body("title").not().isEmpty().trim().escape(),
         async function (req, res) {
-            if (!loggedIn(req)) {
-                res.redirect("/login");
-                return;
-            }
             // sanitize
             const userId = getUserIdFromCookie(req);
             const cleanedText = sanitizeWYSIWYG(req.body.text);
