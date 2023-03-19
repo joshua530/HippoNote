@@ -18,6 +18,10 @@ app.use(["/notes", "/account", "/dashboard"], authenticate);
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/static", express.static("public"));
+app.use("/robots.txt", function (req, res) {
+    res.type("text/plain");
+    res.send("User-Agent: *\nDisallow: /");
+});
 app.use("/", require("./routes"));
 app.use("/notes", require("./routes/notes"));
 app.use("/account", require("./routes/account"));
