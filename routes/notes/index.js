@@ -121,7 +121,27 @@ router
 
 router.post("/delete/:id", function (req, res) {});
 
-router.get("/:id", async function (req, res) {});
+router.get("/:id", async function (req, res) {
+    let id = req.params.id;
+    let userNote = await UserNote.findOne({ noteId: id });
+    if (!userNote) {
+        res.redirect("/404");
+        return;
+    }
+    if (userNote.userId.toString() !== getUserIdFromCookie(req)) {
+        res.redirect("/403");
+        return;
+    }
+    let note = await Note.findOne(
+        { _id: userNote.noteId },
+        { title: 1, content: 1 }
+    );
+    if (!note) {
+        res.redirect("/404");
+        return;
+    }
+    res.render("view-note.html", { note });
+});
 
 function sanitizeWYSIWYG(text) {
     return sanitizeHtml(text, {
