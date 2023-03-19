@@ -5,6 +5,7 @@ const { body } = require("express-validator");
 const sanitizeHtml = require("sanitize-html");
 const Note = require("../../models/note-model");
 const UserNote = require("../../models/usernote-model");
+const { isValidObjectId } = require("mongoose");
 
 /**
  * route: /notes
@@ -65,7 +66,7 @@ router
     .route("/edit/:id")
     .get(async function (req, res) {
         let id = req.params.id;
-        if (!id) {
+        if (!isValidObjectId(id)) {
             res.redirect("/404");
             return;
         }
@@ -88,6 +89,10 @@ router
         body("title").not().isEmpty().trim().escape(),
         async function (req, res) {
             let id = req.params.id;
+            if (!isValidObjectId(id)) {
+                res.redirect("/404");
+                return;
+            }
             let userNote = await UserNote.findOne({ noteId: id });
             if (!userNote) {
                 res.redirect("/404");
@@ -121,6 +126,10 @@ router
 
 router.post("/delete/:id", async function (req, res) {
     let id = req.params.id;
+    if (!isValidObjectId(id)) {
+        res.redirect("/404");
+        return;
+    }
     let userNote = await UserNote.findOne({ noteId: id });
     if (!userNote) {
         res.redirect("/404");
@@ -137,13 +146,12 @@ router.post("/delete/:id", async function (req, res) {
 
 router.get("/:id", async function (req, res) {
     let id = req.params.id;
-    let userNote;
-    try {
-        userNote = await UserNote.findOne({ noteId: id });
-    } catch (e) {
+    if (!isValidObjectId(id)) {
         res.redirect("/404");
         return;
     }
+
+    let userNote = await UserNote.findOne({ noteId: id });
     if (!userNote) {
         res.redirect("/404");
         return;

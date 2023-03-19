@@ -16,6 +16,14 @@ router.get("/", function (req, res) {
     res.render("index.html", { title: "home page" });
 });
 
+router.get("/404", function (req, res) {
+    res.render("404.html");
+});
+
+router.get("/403", function (req, res) {
+    res.render("403.html");
+});
+
 router
     .route("/login")
     .get(function (req, res) {
