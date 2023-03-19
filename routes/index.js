@@ -27,10 +27,6 @@ router.get("/403", function (req, res) {
 router
     .route("/login")
     .get(function (req, res) {
-        if (loggedIn(req)) {
-            res.redirect("/dashboard");
-            return;
-        }
         res.render("login.html", { title: "login page" });
     })
     .post(async function (req, res) {
@@ -179,11 +175,6 @@ router
 router.get("/dashboard", async function (req, res) {
     // get cookie
     let cookie = req.cookies.session;
-    if (!cookie) {
-        res.redirect("/login");
-        return;
-    }
-
     let decoded;
     try {
         decoded = jwt.verify(cookie, process.env.SECRET);
