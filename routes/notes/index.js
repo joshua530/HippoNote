@@ -26,20 +26,7 @@ router
             }
             // sanitize
             const userId = getUserIdFromCookie(req);
-            const cleanedText = sanitizeHtml(req.body.text, {
-                allowedTags: ["img"],
-                allowedAttributes: {
-                    img: [
-                        "src",
-                        "srcset",
-                        "alt",
-                        "title",
-                        "width",
-                        "height",
-                        "loading",
-                    ],
-                },
-            });
+            const cleanedText = sanitizeWYSIWYG(req.body.text);
 
             const note = await Note.create({
                 title: req.body.title,
@@ -74,13 +61,83 @@ router
         }
     );
 
-router.get("/:id", function (req, res) {});
-
 router
     .route("/edit/:id")
-    .get(function (req, res) {})
-    .post(function (req, res) {});
+    .get(async function (req, res) {
+        let id = req.params.id;
+        if (!id) {
+            res.redirect("/404");
+            return;
+        }
+
+        let note = await Note.findOne({ _id: id });
+        if (!note) {
+            res.redirect("/404");
+            return;
+        }
+
+        let userNote = await UserNote.findOne({ noteId: note.id });
+        if (userNote.userId.toString() !== getUserIdFromCookie(req)) {
+            res.redirect("/403");
+            return;
+        }
+        res.render("edit-note.html", { title: "view note", note });
+    })
+    .post(
+        body("text").not().isEmpty().trim(),
+        body("title").not().isEmpty().trim().escape(),
+        async function (req, res) {
+            let id = req.params.id;
+            let userNote = await UserNote.findOne({ noteId: id });
+            if (!userNote) {
+                res.redirect("/404");
+                return;
+            }
+            if (userNote.userId.toString() !== getUserIdFromCookie(req)) {
+                res.redirect("/403");
+                return;
+            }
+            const cleanedText = sanitizeWYSIWYG(req.body.text);
+            try {
+                await Note.updateOne(
+                    { _id: userNote.noteId },
+                    { $set: { title: req.body.title, content: cleanedText } }
+                );
+                res.redirect(`/notes/${id}`);
+            } catch (e) {
+                res.render("edit-note.html", {
+                    title: "view note",
+                    note: {
+                        id,
+                        title: req.body.title,
+                        content: req.body.content,
+                    },
+                    message:
+                        "could not save note at given time, please try again later",
+                });
+            }
+        }
+    );
 
 router.post("/delete/:id", function (req, res) {});
+
+router.get("/:id", async function (req, res) {});
+
+function sanitizeWYSIWYG(text) {
+    return sanitizeHtml(text, {
+        allowedTags: ["img"],
+        allowedAttributes: {
+            img: [
+                "src",
+                "srcset",
+                "alt",
+                "title",
+                "width",
+                "height",
+                "loading",
+            ],
+        },
+    });
+}
 
 module.exports = router;
