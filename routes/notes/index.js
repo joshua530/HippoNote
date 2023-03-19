@@ -76,9 +76,6 @@ router
         }
     );
 
-router
-    .route("/new")
-    .get(function (req, res) {})
-    .post(function (req, res) {});
+router.get("/:id", function (req, res) {});
 
 module.exports = router;
