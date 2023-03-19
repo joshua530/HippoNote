@@ -14,6 +14,10 @@ function authenticate(req, res, next) {
         res.redirect("/login");
         return;
     }
+    if (req.baseUrl === "/login" || req.baseUrl === "/sign-up") {
+        res.redirect("/dashboard");
+        return;
+    }
     next();
 }
 
