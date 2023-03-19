@@ -51,20 +51,6 @@ function addSecretToEnv(basePath = "") {
 }
 
 /** auth */
-function loggedIn(req) {
-    const cookie = req.cookies.session;
-    if (!cookie) {
-        return false;
-    }
-
-    try {
-        jwt.verify(cookie, process.env.SECRET);
-    } catch (e) {
-        return false;
-    }
-    return true;
-}
-
 function getUserIdFromCookie(req) {
     return jwt.verify(req.cookies.session, process.env.SECRET).id;
 }
@@ -87,6 +73,5 @@ module.exports = {
     hashPassword,
     verifyPassword,
     generateImageUri,
-    loggedIn,
     getUserIdFromCookie,
 };

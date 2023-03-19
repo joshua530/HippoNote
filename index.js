@@ -5,6 +5,7 @@ const twig = require("twig");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const connection = require("./db");
+const authenticate = require("./middleware/auth");
 
 addSecretToEnv();
 connection(true);
@@ -13,6 +14,7 @@ app.set("views", "./templates");
 app.set("view engine", "twig");
 app.engine("html", twig.__express);
 
+app.use(["/notes", "/account", "/dashboard"], authenticate);
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/static", express.static("public"));
