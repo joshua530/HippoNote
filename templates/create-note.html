@@ -3,12 +3,18 @@
 {% block body %}
 <div class="container px-4 px-lg-5">
   <h2 class="mb-3">Edit note</h2>
-  <small>only linked images are currently supported</small>
-  <form action="" class="mt-3">
+  <p>only linked images are currently supported</p>
+  <form action="/notes/new" method="POST" class="mt-3">
     <div>
-      <textarea id="editor" name="text"></textarea>
-    </div>
-    <button class="mt-3 btn btn-success btn-lg">save</button>
+      <div class="form-outline mb-4">
+        <input type="text" name="title" id="title" class="form-control form-control-lg" />
+        <label class="form-label" for="title">Title</label>
+      </div>
+      <div>
+        <textarea id="editor" name="text" id="text"></textarea>
+        <label class="form-label" for="text">Text</label>
+      </div>
+      <button class="mt-3 btn btn-success btn-lg">save</button>
   </form>
 </div>
 {% endblock %}
