@@ -3,6 +3,7 @@ const User = require("../../models/user-model");
 const UserNote = require("../../models/usernote-model");
 const { getUserIdFromCookie } = require("../../utils");
 const router = express.Router();
+const { body, validationResult } = require("express-validator");
 
 /**
  * route: /account
@@ -26,8 +27,33 @@ router.get("/", async function (req, res) {
 
 router
     .route("/update")
-    .get(function (req, res) {})
-    .post(function (req, res) {});
+    .get(async function (req, res) {
+        const id = getUserIdFromCookie(req);
+        const user = await User.findOne({ _id: id });
+        res.render("update-profile.html", { title: "update profile", user });
+    })
+    .post(
+        body("username", "invalid username").not().isEmpty().trim().escape(),
+        body("about", "about cannot be empty").not().isEmpty().trim().escape(),
+        body("email", "invalid email").isEmail(),
+        async function (req, res) {
+            const errors = validationResult(req).array();
+            const id = getUserIdFromCookie(req);
+            const user = await User.findOne({ _id: id });
+            if (errors.length > 0) {
+                res.render("update-profile.html", {
+                    user,
+                    errors,
+                });
+                return;
+            }
+            user.username = req.body.username;
+            user.email = req.body.email;
+            user.about = req.body.about;
+            await user.save();
+            res.redirect("/account");
+        }
+    );
 
 router.post("/delete", function (req, res) {});
 
