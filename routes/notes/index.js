@@ -1,7 +1,7 @@
 const express = require("express");
 const { loggedIn, getUserIdFromCookie } = require("../../utils");
 const router = express.Router();
-const { body } = require("express-validator");
+const { body, validationResult } = require("express-validator");
 const sanitizeHtml = require("sanitize-html");
 const Note = require("../../models/note-model");
 const UserNote = require("../../models/usernote-model");
@@ -52,9 +52,18 @@ router
         res.render("create-note.html", { title: "create note" });
     })
     .post(
-        body("text").not().isEmpty().trim(),
-        body("title").not().isEmpty().trim().escape(),
+        body("title", "invalid title").not().isEmpty().trim().escape(),
+        body("text", "invalid content").not().isEmpty().trim(),
         async function (req, res) {
+            const errors = validationResult(req).array();
+            if (errors.length > 0) {
+                res.render("create-note.html", {
+                    errors,
+                    title: req.body.title,
+                    text: req.body.text,
+                });
+                return;
+            }
             // sanitize
             const userId = getUserIdFromCookie(req);
             const cleanedText = sanitizeWYSIWYG(req.body.text);
