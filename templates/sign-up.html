@@ -15,24 +15,26 @@
                 {% endif %}
                 {% include "errors.html" %}
                 <div class="form-outline mb-4">
-                  <input type="text" value="{{ username }}" name="username" id="username"
+                  <input required type="text" value="{{ username }}" name="username" id="username"
                     class="form-control form-control-lg" />
                   <label class="form-label" for="username">Username</label>
                 </div>
 
                 <div class="form-outline mb-4">
-                  <input type="email" name="email" value="{{ email }}" id="email"
+                  <input required type="email" name="email" value="{{ email }}" id="email"
                     class="form-control form-control-lg" />
                   <label class="form-label" for="email">Your Email</label>
                 </div>
 
                 <div class="form-outline mb-4">
-                  <input type="password" name="password" id="password" class="form-control form-control-lg" />
+                  <input minlength="8" required type="password" name="password" id="password"
+                    class="form-control form-control-lg" />
                   <label class="form-label" for="password">Password</label>
                 </div>
 
                 <div class="form-outline mb-4">
-                  <input type="password" name="password2" id="password2" class="form-control form-control-lg" />
+                  <input minlength="8" required type="password" name="password2" id="password2"
+                    class="form-control form-control-lg" />
                   <label class="form-label" for="password2">Repeat your password</label>
                 </div>
 

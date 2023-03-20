@@ -14,7 +14,7 @@
                 <div class="col-md-6 mb-4">
 
                   <div class="form-outline">
-                    <input type="text" value="{{ user.username }}" id="username" name="username"
+                    <input required type="text" value="{{ user.username }}" id="username" name="username"
                       class="form-control form-control-lg" />
                     <label class="form-label" for="username">Username</label>
                   </div>
@@ -23,7 +23,7 @@
                 <div class="col-md-6 mb-4">
 
                   <div class="form-outline">
-                    <input type="email" value="{{ user.email }}" id="email" name="email"
+                    <input required type="email" value="{{ user.email }}" id="email" name="email"
                       class="form-control form-control-lg" />
                     <label class="form-label" for="email">Email</label>
                   </div>
@@ -33,7 +33,7 @@
 
               <div class="row">
                 <div class="form-group">
-                  <textarea class="form-control" name="about" id="about" rows="8">{{ user.about }}</textarea>
+                  <textarea required class="form-control" name="about" id="about" rows="8">{{ user.about }}</textarea>
                   <label for="about">About</label>
                 </div>
               </div>
