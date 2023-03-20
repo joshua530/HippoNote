@@ -12,9 +12,11 @@ const { isValidObjectId } = require("mongoose");
  */
 router.get("/search", async function (req, res) {
     const query = req.query.q;
-    let cookie = req.cookies.session;
     if (!query || typeof query !== "string" || query.trim() === "") {
-        res.render("/dashboard");
+        res.render("/dashboard", {
+            title: "dashboard",
+            authenticated: req.authenticated,
+        });
         return;
     }
     const userId = getUserIdFromCookie(req);
@@ -25,6 +27,7 @@ router.get("/search", async function (req, res) {
             title: "dashboard",
             notes: [],
             message: "No notes matched the query",
+            authenticated: req.authenticated,
         });
     }
     const noteIds = userNotes.map((note) => note.noteId);
@@ -43,13 +46,17 @@ router.get("/search", async function (req, res) {
         title: "dashboard",
         notes,
         message: "No notes matched the query",
+        authenticated: req.authenticated,
     });
 });
 
 router
     .route("/new")
     .get(function (req, res) {
-        res.render("create-note.html", { title: "create note" });
+        res.render("create-note.html", {
+            title: "create note",
+            authenticated: req.authenticated,
+        });
     })
     .post(
         body("title", "invalid title").not().isEmpty().trim().escape(),
@@ -61,6 +68,7 @@ router
                     errors,
                     title: req.body.title,
                     text: req.body.text,
+                    authenticated: req.authenticated,
                 });
                 return;
             }
@@ -81,6 +89,7 @@ router
                             msg: "could not save note at this time, please try again later",
                         },
                     ],
+                    authenticated: req.authenticated,
                 });
                 return;
             }
@@ -99,6 +108,7 @@ router
                             msg: "could not save note at this time, please try again later",
                         },
                     ],
+                    authenticated: req.authenticated,
                 });
                 return;
             }
@@ -127,7 +137,11 @@ router
             res.redirect("/403");
             return;
         }
-        res.render("edit-note.html", { title: "view note", note });
+        res.render("edit-note.html", {
+            title: "view note",
+            note,
+            authenticated: req.authenticated,
+        });
     })
     .post(
         body("title", "invalid title").not().isEmpty().trim().escape(),
@@ -139,6 +153,7 @@ router
                     errors,
                     title: req.body.title,
                     text: req.body.text,
+                    authenticated: req.authenticated,
                 });
                 return;
             }
@@ -170,6 +185,7 @@ router
                         id,
                         title: req.body.title,
                         content: req.body.content,
+                        authenticated: req.authenticated,
                     },
                     errors: [
                         {

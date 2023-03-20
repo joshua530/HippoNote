@@ -9,7 +9,10 @@ const { body, validationResult } = require("express-validator");
  * route: /
  */
 router.get("/", function (req, res) {
-    res.render("index.html", { title: "home page" });
+    res.render("index.html", {
+        title: "home page",
+        authenticated: req.authenticated,
+    });
 });
 
 router.get("/404", function (req, res) {
@@ -27,7 +30,10 @@ router.get("/500", function (req, res) {
 router
     .route("/login")
     .get(function (req, res) {
-        res.render("login.html", { title: "login page" });
+        res.render("login.html", {
+            title: "login page",
+            authenticated: req.authenticated,
+        });
     })
     .post(
         body("password", "invalid credentials").not().isEmpty().trim().escape(),
@@ -39,6 +45,7 @@ router
                     errors,
                     username: req.body.username,
                     password: req.body.password,
+                    authenticated: req.authenticated,
                 });
                 return;
             }
@@ -49,6 +56,7 @@ router
                 res.render("login.html", {
                     title: "login page",
                     errors: [{ msg: "invalid credentials" }],
+                    authenticated: req.authenticated,
                 });
                 return;
             }
@@ -69,7 +77,10 @@ router
 router
     .route("/sign-up")
     .get(function (req, res) {
-        res.render("sign-up.html", { title: "sign up" });
+        res.render("sign-up.html", {
+            title: "sign up",
+            authenticated: req.authenticated,
+        });
     })
     .post(
         body("username", "invalid username").not().isEmpty().trim().escape(),
@@ -94,6 +105,7 @@ router
                     email: req.body.email,
                     password: req.body.password,
                     password2: req.body.password2,
+                    authenticated: req.authenticated,
                 });
                 return;
             }
@@ -108,6 +120,7 @@ router
                     },
                     username,
                     email,
+                    authenticated: req.authenticated,
                 });
                 return;
             }
@@ -122,6 +135,7 @@ router
                     },
                     username,
                     email,
+                    authenticated: req.authenticated,
                 });
                 return;
             }
@@ -138,6 +152,7 @@ router
                         text: "account created successfully, you can now log in with your credentials",
                         type: "success",
                     },
+                    authenticated: req.authenticated,
                 });
             } else {
                 res.status(400);
@@ -149,6 +164,7 @@ router
                     },
                     username,
                     email,
+                    authenticated: req.authenticated,
                 });
             }
         }
@@ -176,7 +192,11 @@ router.get("/dashboard", async function (req, res) {
         if (note.content.length > 30)
             note.content = note.content.slice(0, 30) + "...";
     }
-    res.render("dashboard.html", { title: "dashboard", notes });
+    res.render("dashboard.html", {
+        title: "dashboard",
+        notes,
+        authenticated: req.authenticated,
+    });
 });
 
 module.exports = router;

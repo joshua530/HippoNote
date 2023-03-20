@@ -22,7 +22,12 @@ router.get("/", async function (req, res) {
         return;
     }
     let numNotes = await UserNote.count({ userId });
-    res.render("profile.html", { title: "profile", user, numNotes });
+    res.render("profile.html", {
+        title: "profile",
+        user,
+        numNotes,
+        authenticated: req.authenticated,
+    });
 });
 
 router
@@ -30,7 +35,11 @@ router
     .get(async function (req, res) {
         const id = getUserIdFromCookie(req);
         const user = await User.findOne({ _id: id });
-        res.render("update-profile.html", { title: "update profile", user });
+        res.render("update-profile.html", {
+            title: "update profile",
+            user,
+            authenticated: req.authenticated,
+        });
     })
     .post(
         body("username", "invalid username").not().isEmpty().trim().escape(),
@@ -44,6 +53,7 @@ router
                 res.render("update-profile.html", {
                     user,
                     errors,
+                    authenticated: req.authenticated,
                 });
                 return;
             }
