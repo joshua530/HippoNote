@@ -76,8 +76,11 @@ router
                 res.render("create-note.html", {
                     title: "create note",
                     text: req.body.text,
-                    message:
-                        "could not create note at this time, please try again later",
+                    errors: [
+                        {
+                            msg: "could not save note at this time, please try again later",
+                        },
+                    ],
                 });
                 return;
             }
@@ -91,8 +94,11 @@ router
                 res.render("create-note.html", {
                     title: "create note",
                     text: req.body.text,
-                    message:
-                        "could not create note at this time, please try again later",
+                    errors: [
+                        {
+                            msg: "could not save note at this time, please try again later",
+                        },
+                    ],
                 });
                 return;
             }
@@ -124,9 +130,18 @@ router
         res.render("edit-note.html", { title: "view note", note });
     })
     .post(
-        body("text").not().isEmpty().trim(),
-        body("title").not().isEmpty().trim().escape(),
+        body("title", "invalid title").not().isEmpty().trim().escape(),
+        body("text", "invalid content").not().isEmpty().trim(),
         async function (req, res) {
+            const errors = validationResult(req).array();
+            if (errors.length > 0) {
+                res.render("create-note.html", {
+                    errors,
+                    title: req.body.title,
+                    text: req.body.text,
+                });
+                return;
+            }
             let id = req.params.id;
             if (!isValidObjectId(id)) {
                 res.redirect("/404");
@@ -156,8 +171,11 @@ router
                         title: req.body.title,
                         content: req.body.content,
                     },
-                    message:
-                        "could not save note at given time, please try again later",
+                    errors: [
+                        {
+                            msg: "could not save note at this time, please try again later",
+                        },
+                    ],
                 });
             }
         }
