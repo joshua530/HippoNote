@@ -8,17 +8,16 @@
       <div class="col-lg-4">
         <div class="card mb-4">
           <div class="d-flex mt-3">
-            <a href="/foo/update-profile" title="edit profile" class="btn mx-1 btn-sm btn-outline-success"><i
+            <a href="/account/update" title="edit profile" class="btn mx-1 btn-sm btn-outline-success"><i
                 class="fa fa-pencil" aria-hidden="true"></i>
             </a>
-            <form title="delete profile" action="/delete/note" method="POST" class="form-submission" id="note-1"
+            <form title="delete profile" action="/account/delete" method="POST" class="form-submission" id="note-1"
               onsubmit="return confirm('Delete this profile?')"><button class="btn mx-1 btn-sm btn-outline-danger"><i
                   class="fa fa-trash" aria-hidden="true"></i></button></form>
           </div>
           <div class="card-body text-center">
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
-              class="rounded-circle img-fluid" style="width: 150px;">
-            <h5 class="my-3">John Smith</h5>
+            <img src="{{ user.profilePicture }}" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+            <h5 class="my-3">{{ user.username }}</h5>
           </div>
         </div>
         <div class="mb-4 mb-lg-0">
@@ -29,10 +28,10 @@
           <div class="card-body">
             <div class="row">
               <div class="col-sm-3">
-                <p class="mb-0">Full Name</p>
+                <p class="mb-0">Username</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0">Johnatan Smith</p>
+                <p class="text-muted mb-0">{{ user.username }}</p>
               </div>
             </div>
             <hr>
@@ -41,7 +40,7 @@
                 <p class="mb-0">Email</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0">example@example.com</p>
+                <p class="text-muted mb-0">{{ user.email }}</p>
               </div>
             </div>
             <hr>
@@ -50,7 +49,7 @@
                 <p class="mb-0">Date created</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0">1/1/01</p>
+                <p class="text-muted mb-0">{{ user.dateCreated|date("d/m/Y") }}</p>
               </div>
             </div>
             <hr>
@@ -59,7 +58,7 @@
                 <p class="mb-0">Total number of notes</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0">10</p>
+                <p class="text-muted mb-0">{{ numNotes }}</p>
               </div>
             </div>
           </div>
@@ -69,9 +68,7 @@
         <div class="card mb-4">
           <div class="card-body">
             <h2>About</h2>
-            <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur nostrum beatae iure,
-              quas, voluptate ea iste temporibus at odio blanditiis labore ad ipsa nihil adipisci autem aliquam aperiam
-              amet quasi.</p>
+            <p class="text-muted">{{ user.about }}</p>
           </div>
         </div>
 
