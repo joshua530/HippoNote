@@ -20,6 +20,7 @@ app.use(
     ["/notes", "/account", "/dashboard", "/login", "/sign-up", "/"],
     authenticate
 );
+app.use("*", headers);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/static", express.static("public"));
 app.use("/robots.txt", function (req, res) {
@@ -29,7 +30,6 @@ app.use("/robots.txt", function (req, res) {
 app.use("/", require("./routes"));
 app.use("/notes", require("./routes/notes"));
 app.use("/account", require("./routes/account"));
-app.use("*", headers);
 app.use("*", function (req, res) {
     res.render("404.html");
 });
