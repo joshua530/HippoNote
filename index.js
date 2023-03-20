@@ -16,7 +16,7 @@ app.engine("html", twig.__express);
 
 app.use(cookieParser());
 app.use(
-    ["/notes", "/account", "/dashboard", "/login", "/sign-up"],
+    ["/notes", "/account", "/dashboard", "/login", "/sign-up", "/"],
     authenticate
 );
 app.use(bodyParser.urlencoded({ extended: false }));
