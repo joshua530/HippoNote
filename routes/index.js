@@ -35,7 +35,7 @@ router
         async function (req, res) {
             const errors = validationResult(req).array();
             if (errors.length > 0) {
-                res.render("create-note.html", {
+                res.render("login.html", {
                     errors,
                     username: req.body.username,
                     password: req.body.password,
@@ -88,7 +88,7 @@ router
             let { username, password, email } = req.body;
             const errors = validationResult(req).array();
             if (errors.length > 0) {
-                res.render("create-note.html", {
+                res.render("sign-up.html", {
                     errors,
                     username: req.body.username,
                     email: req.body.email,
