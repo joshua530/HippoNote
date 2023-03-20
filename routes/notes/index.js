@@ -41,7 +41,7 @@ router.get("/search", async function (req, res) {
                 { content: new RegExp(q, "i") },
             ],
         });
-    console.log(notes);
+
     res.render("dashboard.html", {
         title: "dashboard",
         notes,
@@ -151,8 +151,11 @@ router
             if (errors.length > 0) {
                 res.render("edit-note.html", {
                     errors,
-                    title: req.body.title,
-                    text: req.body.text,
+                    note: {
+                        title: req.body.title,
+                        text: req.body.text,
+                        id: req.params.id,
+                    },
                     authenticated: req.authenticated,
                 });
                 return;
@@ -162,6 +165,7 @@ router
                 res.redirect("/404");
                 return;
             }
+
             let userNote = await UserNote.findOne({ noteId: id });
             if (!userNote) {
                 res.redirect("/404");
@@ -241,7 +245,7 @@ router.get("/:id", async function (req, res) {
         res.redirect("/404");
         return;
     }
-    res.render("view-note.html", { note });
+    res.render("view-note.html", { note, authenticated: req.authenticated });
 });
 
 function sanitizeWYSIWYG(text) {
