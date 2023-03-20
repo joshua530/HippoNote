@@ -135,7 +135,7 @@ router
         async function (req, res) {
             const errors = validationResult(req).array();
             if (errors.length > 0) {
-                res.render("create-note.html", {
+                res.render("edit-note.html", {
                     errors,
                     title: req.body.title,
                     text: req.body.text,
