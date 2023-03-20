@@ -11,6 +11,16 @@
       onsubmit="return confirm('Delete this note?')"><button class="btn mx-1 btn-sm btn-danger"><i class="fa fa-trash"
           aria-hidden="true"></i></button></form>
   </div>
-  <div class="mt-3 lead font-weight-bold">{{ note.content }}</div>
+  <div id="content" class="mt-3 lead font-weight-bold">{{ note.content }}</div>
 </div>
 {% endblock body %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.1/purify.min.js"
+  integrity="sha512-TU4FJi5o+epsahLtM9OFRvH2gXmmlzGlysk9wtTFgbYbMvFzh3Cw1l3ubnYIvBiZCC/aurRHS408TeEbcuOoyQ=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  let content = document.querySelector('#content').innerHTML
+  document.querySelector('#content').setHTML(content, { sanitizer: new Sanitizer() })
+</script>
+{% endblock %}
