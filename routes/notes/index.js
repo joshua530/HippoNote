@@ -329,6 +329,7 @@ function sanitizeWYSIWYG(text) {
                 "height",
                 "loading",
             ],
+            a: ["href"],
         },
     });
 }
