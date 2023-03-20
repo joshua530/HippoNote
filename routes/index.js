@@ -24,6 +24,10 @@ router.get("/403", function (req, res) {
     res.render("403.html");
 });
 
+router.get("/500", function (req, res) {
+    res.render("500.html");
+});
+
 router
     .route("/login")
     .get(function (req, res) {
