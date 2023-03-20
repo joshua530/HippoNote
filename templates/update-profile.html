@@ -9,15 +9,7 @@
           <div class="card-body p-4 p-md-5">
             <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Update profile</h3>
             <form method="post">
-              {% if errors %}
-              <div class="alert alert-danger">
-                <ul>
-                  {% for error in errors %}
-                  <li>{{ error.msg }}</li>
-                  {% endfor %}
-                </ul>
-              </div>
-              {% endif %}
+              {% include "errors.html" %}
               <div class="row">
                 <div class="col-md-6 mb-4">
 
