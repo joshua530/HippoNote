@@ -11,6 +11,11 @@ const userSchema = new Schema(
         email: { type: String, required: true },
         profilePicture: { type: String, required: true },
         dateCreated: { type: Date, default: Date.now },
+        about: {
+            type: String,
+            default:
+                "Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur nostrum beatae iure, quas, voluptate ea iste temporibus at odio blanditiis labore ad ipsa nihil adipisci autem aliquam aperiam amet quasi.",
+        },
     },
     {
         methods: {
