@@ -2,6 +2,7 @@ const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
 const jwt = require("jsonwebtoken");
+const { MailtrapClient } = require("mailtrap");
 
 /** crypto */
 function generateSecretKey() {
@@ -67,6 +68,33 @@ function generateImageUri() {
     return uri;
 }
 
+function sendEmail(to, from, subject, content) {
+    const TOKEN = process.env.MAILTRAP_API_KEY;
+    const ENDPOINT = "https://send.api.mailtrap.io/";
+
+    const client = new MailtrapClient({ endpoint: ENDPOINT, token: TOKEN });
+
+    const sender = {
+        email: "mailtrap@jjweb.tech",
+        name: "Mailtrap Test",
+    };
+    const recipients = [
+        {
+            email: "joshuaomari5@gmail.com",
+        },
+    ];
+
+    client
+        .send({
+            from: sender,
+            to: recipients,
+            subject: "You are awesome!",
+            text: "Congrats for sending test email with Mailtrap!",
+            category: "Integration Test",
+        })
+        .then(console.log, console.error);
+}
+
 module.exports = {
     generateSecretKey,
     addSecretToEnv,
@@ -74,4 +102,5 @@ module.exports = {
     verifyPassword,
     generateImageUri,
     getUserIdFromCookie,
+    sendEmail,
 };

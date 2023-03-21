@@ -4,6 +4,8 @@ const router = express.Router();
 const { verifyPassword, generateImageUri, hashPassword } = require("../utils");
 const jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");
+const uuid = require("uuid");
+const Jwt = require("../models/jwt-model");
 
 /**
  * route: /
@@ -16,14 +18,17 @@ router.get("/", function (req, res) {
 });
 
 router.get("/404", function (req, res) {
+    res.status(404);
     res.render("404.html");
 });
 
 router.get("/403", function (req, res) {
+    res.status(403);
     res.render("403.html");
 });
 
 router.get("/500", function (req, res) {
+    res.status(500);
     res.render("500.html");
 });
 
@@ -60,11 +65,30 @@ router
                 });
                 return;
             }
-            const token = jwt.sign({ id: user.id }, process.env.SECRET, {
-                expiresIn: "10d",
-            });
+            const id = uuid.v4();
+            const tmpTok = await Jwt.create({ token: id, valid: true });
+            if (!tmpTok) {
+                res.status(500);
+                res.render("login.html", {
+                    title: "login page",
+                    errors: [
+                        {
+                            msg: "we cannot log you in at this time, try again later",
+                        },
+                    ],
+                    authenticated: req.authenticated,
+                });
+                return;
+            }
+            const cookie = jwt.sign(
+                { id: user.id, jwt_id: id },
+                process.env.SECRET,
+                {
+                    expiresIn: "10d",
+                }
+            );
 
-            res.cookie("session", token, {
+            res.cookie("session", cookie, {
                 httpOnly: true,
                 secure: true,
                 sameSite: true,
