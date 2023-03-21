@@ -1,6 +1,6 @@
 # Hippo Note
 
-[![logo](https://github.com/joshua530/HippoNote/raw/master/public/img/logo.png)](https://github.com/joshua530/HippoNote/raw/master/public/img/logo.png)
+<img src="https://github.com/joshua530/HippoNote/raw/master/public/img/logo.png" alt="logo" height="300" />
 
 ![license](https://img.shields.io/github/license/joshua530/BlogIt?color=blue&style=plastic)
 
