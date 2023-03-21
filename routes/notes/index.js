@@ -66,8 +66,7 @@ router
             if (errors.length > 0) {
                 res.render("create-note.html", {
                     errors,
-                    title: req.body.title,
-                    text: req.body.text,
+                    note: { title: req.body.title, content: req.body.text },
                     authenticated: req.authenticated,
                 });
                 return;
@@ -102,7 +101,7 @@ router
                 await Note.findOneAndDelete({ _id: note.id });
                 res.render("create-note.html", {
                     title: "create note",
-                    text: req.body.text,
+                    note: { text: req.body.text, content: req.body.text },
                     errors: [
                         {
                             msg: "could not save note at this time, please try again later",
