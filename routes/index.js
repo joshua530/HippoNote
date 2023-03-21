@@ -18,14 +18,17 @@ router.get("/", function (req, res) {
 });
 
 router.get("/404", function (req, res) {
+    res.status(404);
     res.render("404.html");
 });
 
 router.get("/403", function (req, res) {
+    res.status(403);
     res.render("403.html");
 });
 
 router.get("/500", function (req, res) {
+    res.status(500);
     res.render("500.html");
 });
 
