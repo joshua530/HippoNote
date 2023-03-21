@@ -15,18 +15,19 @@ async function authenticate(req, res, next) {
             res.redirect("/dashboard");
             return;
         }
+        req.authenticated = true;
     } catch (e) {
         if (
             req.baseUrl !== "/login" &&
             req.baseUrl !== "/sign-up" &&
-            req.baseUrl !== "/"
+            req.baseUrl !== "/" &&
+            req.baseUrl !== ""
         ) {
             res.clearCookie("session");
             res.redirect("/login");
             return;
         }
     }
-    req.authenticated = true;
     next();
 }
 
