@@ -26,7 +26,8 @@ async function authenticate(req, res, next) {
             "/account/reset-password",
         ];
         let url = req.baseUrl + req.path;
-        if (exempt.indexOf(url) === -1) {
+
+        if (exempt.indexOf(url) === -1 && exempt.indexOf(req.baseUrl) === -1) {
             res.clearCookie("session");
             res.redirect("/login");
             return;
