@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const connection = require("./db");
 const authenticate = require("./middleware/auth");
 const headers = require("./middleware/headers");
+const errorhandler = require("./middleware/errorhandler");
 
 addSecretToEnv();
 connection(true);
@@ -21,8 +22,9 @@ app.use(
     ["/notes", "/account", "/dashboard", "/login", "/sign-up", "/"],
     authenticate
 );
-app.use("*", headers);
+app.use(headers);
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(errorhandler);
 app.use("/robots.txt", function (req, res) {
     res.type("text/plain");
     res.send("User-Agent: *\nDisallow: /");
