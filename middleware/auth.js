@@ -17,12 +17,16 @@ async function authenticate(req, res, next) {
         }
         req.authenticated = true;
     } catch (e) {
-        if (
-            req.baseUrl !== "/login" &&
-            req.baseUrl !== "/sign-up" &&
-            req.baseUrl !== "/" &&
-            req.baseUrl !== ""
-        ) {
+        const exempt = [
+            "/login",
+            "/sign-up",
+            "/",
+            "",
+            "/account/generate-reset-link",
+            "/account/reset-password",
+        ];
+        let url = req.baseUrl + req.path;
+        if (exempt.indexOf(url) === -1) {
             res.clearCookie("session");
             res.redirect("/login");
             return;
