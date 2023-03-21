@@ -6,6 +6,7 @@ const router = express.Router();
 const { body, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const Jwt = require("../../models/jwt-model");
+const Note = require("../../models/note-model");
 
 /**
  * route: /account
@@ -68,11 +69,17 @@ router
     );
 
 router.post("/delete", async function (req, res) {
+    const userId = getUserIdFromCookie(req);
+    // delete all notes
+    const userNotes = await UserNote.find({ userId });
+    for (let userNote of userNotes) {
+        await Note.deleteMany({ _id: userNote.noteId });
+        await UserNote.deleteOne({ _id: userNote.id });
+    }
+    // delete user
+    await User.deleteOne({ _id: userId });
     // invalidate jwt
-    const parsed = jwt.verify(cookie, process.env.SECRET);
-    let data = await Jwt.findOne({ token: parsed.jwt_id });
-    data.valid = false;
-    await data.save();
+    await invalidateJwt(req);
     res.clearCookie("session");
     res.redirect("/");
     return;
