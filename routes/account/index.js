@@ -1,12 +1,14 @@
 const express = require("express");
 const User = require("../../models/user-model");
 const UserNote = require("../../models/usernote-model");
-const { getUserIdFromCookie } = require("../../utils");
+const { getUserIdFromCookie, hashPassword } = require("../../utils");
 const router = express.Router();
-const { body, validationResult } = require("express-validator");
+const { body, query, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const Jwt = require("../../models/jwt-model");
 const Note = require("../../models/note-model");
+const Token = require("../../models/token-model");
+const uuid = require("uuid");
 
 /**
  * route: /account
@@ -98,5 +100,117 @@ async function invalidateJwt(req) {
     data.valid = false;
     await data.save();
 }
+
+router
+    .route("/generate-reset-link")
+    .get(function (req, res) {
+        res.render("generate-reset-token.html", { title: "reset password" });
+    })
+    .post(body("email", "invalid email").isEmail(), async function (req, res) {
+        const errors = validationResult(req).array();
+        if (errors.length > 0) {
+            res.render("generate-reset-token.html", {
+                title: "reset password",
+                errors,
+                email: req.body.email,
+            });
+            return;
+        }
+        const user = await User.findOne({ email: req.body.email });
+        if (!user) {
+            res.render("generate-reset-token.html", {
+                title: "reset password",
+                errors: [{ msg: "invalid email" }],
+                email: req.body.email,
+            });
+            return;
+        }
+
+        let token = await Token.findOne({ userId: user.id });
+        if (token) {
+            await token.deleteOne();
+        }
+
+        token = uuid.v4();
+        await Token.create({
+            userId: user.id,
+            token,
+            createdAt: Date.now(),
+        });
+
+        const link = `${process.env.HTTP_HOST}/reset-password?token=${token}`;
+        // TODO sendEmail();
+        res.render("generate-reset-token.html", {
+            title: "reset password",
+            message: "check your email for password reset token",
+        });
+    });
+
+router
+    .route("/reset-password")
+    .get(
+        query("token", "invalid token").trim().notEmpty(),
+        async function (req, res) {
+            const errors = validationResult(req).array();
+            if (errors.length > 0) {
+                res.render("reset-password.html", {
+                    title: "reset password",
+                    errors,
+                });
+                return;
+            }
+
+            const token = req.query.token;
+            const savedTok = await Token.findOne({ token });
+            if (!savedTok) {
+                res.render("reset-password.html", {
+                    title: "reset password",
+                    errors: [{ msg: "invalid token" }],
+                });
+                return;
+            }
+            res.render("reset-password.html", {
+                title: "reset password",
+                token,
+            });
+        }
+    )
+    .post(
+        query("token", "invalid token").trim().notEmpty(),
+        body("password")
+            .trim()
+            .isLength({ min: 8 })
+            .withMessage("password should be at least 8 characters long"),
+        body("password2", "passwords do not match").custom(
+            (value, { req }) => value === req.body.password
+        ),
+        async function (req, res) {
+            const token = req.query.token;
+            const savedTok = await Token.findOne({ token });
+            if (!savedTok) {
+                res.render("reset-password.html", {
+                    title: "reset password",
+                    errors: [{ msg: "invalid token" }],
+                });
+                return;
+            }
+            const user = await User.findOne({ _id: savedTok.userId });
+
+            if (!user) {
+                res.render("reset-password.html", {
+                    title: "reset password",
+                    errors: [{ msg: "invalid token" }],
+                });
+                return;
+            }
+            user.password = hashPassword(req.body.password);
+            await user.save();
+            await Token.findByIdAndDelete(savedTok.id);
+            res.render("reset-password.html", {
+                title: "reset password",
+                message: "password reset successfully",
+            });
+        }
+    );
 
 module.exports = router;
