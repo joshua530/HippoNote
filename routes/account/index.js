@@ -79,14 +79,17 @@ router.post("/delete", async function (req, res) {
 });
 
 router.get("/logout", async function (req, res) {
-    // invalidate jwt
-    const parsed = jwt.verify(req.cookies.session, process.env.SECRET);
-    let data = await Jwt.findOne({ token: parsed.jwt_id });
-    data.valid = false;
-    await data.save();
+    await invalidateJwt(req);
     res.clearCookie("session");
     res.redirect("/");
     return;
 });
+
+async function invalidateJwt(req) {
+    const parsed = jwt.verify(req.cookies.session, process.env.SECRET);
+    let data = await Jwt.findOne({ token: parsed.jwt_id });
+    data.valid = false;
+    await data.save();
+}
 
 module.exports = router;
