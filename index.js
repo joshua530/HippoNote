@@ -1,5 +1,5 @@
 const express = require("express");
-const { addSecretToEnv } = require("./utils");
+const { addSecretToEnv, sendEmail } = require("./utils");
 const app = express();
 const twig = require("twig");
 const bodyParser = require("body-parser");
@@ -35,6 +35,7 @@ app.use("/account", require("./routes/account"));
 app.use("*", function (req, res) {
     res.render("404.html");
 });
+// sendEmail();
 
 const port = process.env.PORT || 5000;
 app.listen(port, function () {
