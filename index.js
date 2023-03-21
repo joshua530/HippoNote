@@ -16,13 +16,13 @@ app.set("view engine", "twig");
 app.engine("html", twig.__express);
 
 app.use(cookieParser());
+app.use("/static", express.static("public"));
 app.use(
     ["/notes", "/account", "/dashboard", "/login", "/sign-up", "/"],
     authenticate
 );
 app.use("*", headers);
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use("/static", express.static("public"));
 app.use("/robots.txt", function (req, res) {
     res.type("text/plain");
     res.send("User-Agent: *\nDisallow: /");
