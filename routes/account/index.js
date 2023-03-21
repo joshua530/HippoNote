@@ -65,6 +65,17 @@ router
         }
     );
 
-router.post("/delete", function (req, res) {});
+router.post("/delete", async function (req, res) {
+    // delete account
+    const userId = getUserIdFromCookie(req);
+    // invalidate jwt
+    const parsed = jwt.verify(cookie, process.env.SECRET);
+    let data = await Jwt.findOne({ token: parsed.jwt_id });
+    data.valid = false;
+    await data.save();
+    res.clearCookie("session");
+    res.redirect("/");
+    return;
+});
 
 module.exports = router;
