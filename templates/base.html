@@ -27,6 +27,13 @@
       height: 25em !important;
     }
 
+    .logo {
+      position: absolute;
+      top: 1em;
+      left: 1em;
+      height: 70px;
+    }
+
   </style>
   <noscript>Your browser does not support JavaScript! Some features of this application will not work without
     it</noscript>
@@ -50,6 +57,7 @@
   </nav>
   <!-- Header-->
   <header class="masthead">
+    <img class="logo" src="/static/img/logo.png" height="70" />
     {% block body %}
     {% endblock body %}
   </header>
